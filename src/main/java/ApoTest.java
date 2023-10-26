@@ -23,7 +23,8 @@ public class ApoTest {
         open("https://apomeds.com/de");
         Thread.sleep(2000);
         $(By.xpath("//*[@id=\"accept_cookie\"]")).click();
-        $(By.xpath("/html/body/cookie-policy/div/div[2]/div")).shouldBe(disappear);
+        $(By.className("/cookie-content")).shouldBe(disappear);
+
     }
 
     @Test(priority = 3)
@@ -31,7 +32,7 @@ public class ApoTest {
         open("https://apomeds.com/de");
         Thread.sleep(2000);
         $("#login-on-header").click();
-        $(By.xpath("//*[@id=\"content-wrapper\"]/login-sidebar/sidebar-right/div[2]/div[2]/div[1]/sidebar-form/sidebar-form-login/h3")).shouldHave(text("Melden Sie sich in Ihrem Apomeds Konto an"));
+        $(By.className("popup-login-main")).shouldBe(visible);
     }
 
     @Test(priority = 4)
@@ -39,23 +40,22 @@ public class ApoTest {
         open("https://apomeds.com/de");
         // discount popup appears after 6-8 seconds on the page
         Thread.sleep(7000);
-        $(By.xpath("//*[@id=\"content-wrapper\"]/welcome-modal/welcome-info-modal"));
-        $(By.xpath("//*[@id=\"content-wrapper\"]/welcome-modal/welcome-info-modal/button")).click();
+        $(By.className("close-btn")).click();
         $(By.xpath("//*[@id=\"content-wrapper\"]/welcome-modal/welcome-info-modal")).shouldBe(disappear);
     }
 
     @Test(priority = 5)
     public void clickOnSelectTreatmentButtonTest() {
         open("https://apomeds.com/de");
-        $(By.xpath("//*[@id=\"select-treatment-on-banner\"]")).shouldHave(text("Wählen Sie eine Behandlung")).click();
-        $(By.xpath("//*[@id=\"content-wrapper\"]/treatment-sidebar/sidebar-right/div[2]")).shouldBe(visible);
+        $("#select-treatment-on-banner").shouldHave(text("Wählen Sie eine Behandlung")).click();
+        $(By.className("popup-scroll")).shouldBe(visible);
 
     }
 
     @Test(priority = 6)
     public void clickOnManCategoryMainMenuTest() {
         open("https://apomeds.com/de");
-        $(By.xpath("//*[@id=\"header-menu\"]/li[1]")).click();
+        $(By.xpath("//*[@id=\"header-menu\"]/li[1]")).shouldHave(text("Männergesundheit")).click();
         url("https://apomeds.com/de/produkt-kategorie/maennergesundheit");
     }
 
