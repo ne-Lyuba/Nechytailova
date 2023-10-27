@@ -16,6 +16,7 @@ public class ApoTest {
         open("https://apomeds.com/");
         $(By.xpath("//*[@id=\"de\"]")).click();
         url("https://apomeds.com/de");
+        $("#header-menu").shouldBe(visible);
     }
 
     @Test(priority = 2)
@@ -41,7 +42,7 @@ public class ApoTest {
         // discount popup appears after 6-8 seconds on the page
         Thread.sleep(7000);
         $(By.className("close-btn")).click();
-        $(By.xpath("//*[@id=\"content-wrapper\"]/welcome-modal/welcome-info-modal")).shouldBe(disappear);
+        $(By.xpath("//*[@id=\"content-wrapper\"]//welcome-info-modal")).shouldBe(disappear);
     }
 
     @Test(priority = 5)
@@ -57,26 +58,29 @@ public class ApoTest {
         open("https://apomeds.com/de");
         $(By.xpath("//*[@id=\"header-menu\"]/li[1]")).shouldHave(text("Männergesundheit")).click();
         url("https://apomeds.com/de/produkt-kategorie/maennergesundheit");
+        $(By.xpath("//*[@id=\"content-wrapper\"]/section/h2")).shouldHave(text("Männergesundheit – was beinhaltet sie?"));
     }
 
     @Test(priority = 7)
-    public void clickOnPopularTreatmentCategoryTest() {
+    public void clickOnPopularTreatmentCategoryTest() throws InterruptedException {
         open("https://apomeds.com/de");
-        $(By.xpath("//*[@id=\"content-wrapper\"]/main/div[1]/section")).scrollIntoView(true);
-        $(By.xpath("//*[@id=\"content-wrapper\"]/main/div[1]/section/ul/li[6]")).shouldHave(text("Akne")).click();
+        $(By.xpath("//*[@id=\"content-wrapper\"]//section")).scrollIntoView(true);
+        $(By.xpath("//*[@id=\"content-wrapper\"]//section/ul/li[6]")).shouldHave(text("Akne")).click();
         url("https://apomeds.com/de/produkt-kategorie/wohlbefinden/akne");
+        Thread.sleep(1000);
+        $(By.className("category-subtitle")).shouldHave(text("Erhalten Sie Ihre Behandlung gegen Akne direkt per Post, diskret verpackt"));
     }
 
     @Test(priority = 8)
     public void searchProductTest() throws InterruptedException {
         open("https://apomeds.com/de");
-        $(By.xpath("//*[@id=\"content-wrapper\"]/main/div[1]/section")).scrollIntoView(true);
-        $(By.xpath("//*[@id=\"main-header\"]/div/div/quick-product-search/form/input")).click();
-        $(By.xpath("//*[@id=\"main-header\"]/div/div/quick-product-search/form/input")).sendKeys("cobraplus");
+        $(By.xpath("//*[@id=\"content-wrapper\"]//section")).scrollIntoView(true);
+        $(By.xpath("//*[@id=\"main-header\"]//input")).click();
+        $(By.xpath("//*[@id=\"main-header\"]//input")).sendKeys("cobraplus");
         Thread.sleep(2000);
-        $(By.xpath("//*[@id=\"main-header\"]/div/div/quick-product-search/form/button")).click();
+        $(By.xpath("//*[@id=\"main-header\"]//button")).click();
         $(By.xpath("//*[@id=\"main-header\"]/div/div/quick-product-search/quick-search-results/div[2]/qs-hit-products/div/qs-hit-product/a")).click();
-        url("https://apomeds.com/de/produkt/cobra-plus-gummies?qty=1&type=subscription&sp=3_month");
+        $(By.className("product-ts-title")).shouldHave(text("CobraPlus Gummis"));
     }
 
 }
