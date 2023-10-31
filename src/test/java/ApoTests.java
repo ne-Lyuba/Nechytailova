@@ -1,8 +1,14 @@
+import com.google.common.io.Files;
+import io.qameta.allure.Attachment;
+import io.qameta.allure.Description;
+import io.qameta.allure.Step;
 import org.junit.jupiter.api.RepeatedTest;
 import org.openqa.selenium.By;
 import org.testng.Reporter;
 import org.testng.annotations.*;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Method;
 
 import static com.codeborne.selenide.Condition.*;
@@ -10,7 +16,8 @@ import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverConditions.url;
 
 
-public class ApoTests {
+public class ApoTests  {
+
 
     @BeforeTest
     public void beforeTestClass() {
@@ -27,14 +34,17 @@ public class ApoTests {
         System.out.println("Description of the current test: " + test.description());
     }
 
-    @Test(priority = 1, description = "Choose the store on main page")
+
+    @Description("Choose the store on main page")
+    @Test(priority = 1) //description = "Choose the store on main page"
     public void mainPageTest() {
         $(By.xpath("//*[@id=\"de\"]")).click();
         url("https://apomeds.com/de");
         $("#header-menu").shouldBe(visible);
     }
 
-    @Test(priority = 2, description = "Close cookie banner")
+    @Description("Close cookie banner")
+    @Test(priority = 2)
     public void acceptCookiesTest() throws InterruptedException {
         Thread.sleep(2000);
         $(By.xpath("//*[@id=\"accept_cookie\"]")).click();
